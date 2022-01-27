@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+    <meta name="renderer" content="webkit"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <title>SkyMall | 商城</title>
+    <link rel="stylesheet" th:href="@{/layui/css/layui.css}"/>
+    <link th:href="@{/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
+    <link th:href="@{/css/common.css}" rel="stylesheet" type="text/css"/>
+
+    <script th:src="@{/layui/jquery-3.2.1.min.js}"></script>
+    <script th:src="@{/layui/layui.js}"></script>
+    <style>
+
+    </style>
+    <script>
+        GdprConsent.attachBanner(document.body)
+    </script>
+</head>
+<body class="site-home">
+<!--头部模块-->
+<div th:replace="mall/common::head"></div>
+<div class="layui-container" id="content">
+    <div class="layui-row" style="margin-top: 10px;">
+        <div id="cont" class="layui-col-xs12 layui-col-sm12 layui-col-md12 smaller">
+            <fieldset class="layui-elem-field layui-field-title">
+                <legend>欢迎注册</legend>
+                <div class="layui-field-box">
+                    <form class="layui-form" action="register.do">
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">用户名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="username" required="required" onblur="checkUsername()"
+                                       lay-verify="required" placeholder="请输入用户名"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">密码：</label>
+                            <div class="layui-input-block">
+                                <input type="password" name="password" required="required" lay-verify="required"
+                                       placeholder="请输入密码"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">姓名：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="name" required="required" lay-verify="required"
+                                       placeholder="请输您的姓名"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">电话：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="phone" required="required" lay-verify="required|phone"
+                                       placeholder="请输您的联系电话"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">邮箱：</label>
+                            <div class="layui-input-block">
+                                <input type="text" name="email" required="required" lay-verify="required|email"
+                                       placeholder="请输您的邮箱地址"
+                                       autocomplete="off" class="layui-input"/>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">国籍：</label>
+                            <div class="layui-input-block">
+                                <select name="nationality" required="required">
+                                    <option value="China">China</option>
+                                    <option value="European Union">European Union</option>
+                                    <option value="America">America</option>
+                                    <option value="rests">rests</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label">详细地址：</label>
+                            <div class="layui-input-block">
+                                <textarea name="addr" placeholder="请输入您的地址" class="layui-textarea"></textarea></div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <label class="layui-form-label"></label>
+                            <div class="layui-input-block">
+                                <div data-a-input-name="legalAgreementCheckBox"
+                                     style="box-sizing: border-box;">
+                                    <input type="checkbox" name="legalAgreementCheckBox" value="true"
+                                           tabindex="7" class="layui-btn-xs"/>
+                                    <span class="">
+                                                我已阅读并同意网站的<a style="color: #0066c0" href="https://www.baidu.com">用户信息</a>
+
+                                         </span>
+                                </div>
+                                <div data-a-input-name="legalAgreementCheckBox"
+                                     style="box-sizing: border-box;">
+                                    <input type="checkbox" name="legalAgreementCheckBox" value="true"
+                                           tabindex="7" class="layui-btn-xs"/>
+                                    <span class="">
+                                                我已阅读并同意网站的<a href="https://www.baidu.com" style="color: #0066c0">隐私声明</a>
+                                         </span>
+                                </div>
+                                <div data-a-input-name="legalAgreementCheckBox"
+                                     style="box-sizing: border-box;">
+                                    <input type="checkbox" name="legalAgreementCheckBox" value="true"
+                                           tabindex="7" class="layui-btn-xs"/>
+                                    <span class="">
+                                                我已阅读并同意网站的<a href="https://www.baidu.com" style="color: #0066c0">位置信息</a>。
+                                         </span>
+                                </div>
+                                <div class="a-alert-content" style="display: none">
+                                    请阅读并勾选网站使用条件和隐私声明
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="layui-form-item">
+                            <div class="layui-input-block">
+                                <button id="commit" class="layui-btn layui-btn-lg layui-btn-radius layui-btn-danger"
+                                        lay-submit="lay-submit" lay-filter="formReg">注册
+                                </button>
+                                <button type="reset"
+                                        class="layui-btn layui-btn-lg layui-btn-radius layui-btn-primary">
+                                    重置
+                                </button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </fieldset>
+        </div>
+
+    </div>
+    <script>
+        //        <![CDATA[
+        // 加载layui form模块
+        layui.use('form', function () {
+            var form = layui.form;
+        });
+
+        // ajax异步校验用户名是否唯一
+        function checkUsername() {
+            var username = $("input[name='username']").val();
+            $.get("checkUsername.do?username=" + username, function (data) {
+                if (!data.data) {
+                    layer.msg("用户已存在！");
+                    $("#commit").addClass("layui-btn-disabled");
+                } else {
+                    $("#commit").removeClass("layui-btn-disabled");
+                }
+            });
+        }
+
+        // 移动设备显示优化
+        var device = layui.device();
+        if (device.weixin || device.ios || device.android) {
+            $("#cont").removeClass("smaller");
+        }
+
+        //        ]]>
+    </script>
+</div>
+<!--底部-->
+<div th:replace="mall/common::foot"></div>
+</body>
+</html>
