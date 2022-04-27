@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"/>
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+    <link type="text/css" rel="stylesheet"
+          href="//wq.360buyimg.com/wxsq_item_search/item/item_m/_common/detail_jdscene.24b31f6f.css"
+          onerror="__reloadResource(this)" />
+</head>
+<body>
+
+
+<div id="part_main">
+    <div class="detail_info_wrap" id="detail" style="height: auto;
+    overflow: inherit;
+    position: relative;
+    background: #fff;
+    margin-bottom: 56px;">
+        <div class="detail_list" id="detailCont"
+             style="transition: all 0ms ease 0s;">
+            <div class="detail_item p_prop" id="detail2" style="left: 0;position: unset;">
+
+                <div id="package" style="">
+                    <div class="mod_tit_line">
+                        <h3>商品名称</h3>
+                    </div>
+                    <div class="mod_row"  style="text-align: center" th:text="${product.getTitle()}">
+                    </div>
+                </div>
+                <div>
+                    <div class="mod_tit_line">
+                        <h3>商品参数</h3>
+                    </div>
+                    <div id="detParam">
+                        <table cellpadding="0" cellspacing="1" width="100%" border="0" class="Ptable param_table">
+                            <!--<tbody>
+                            <tr>
+                                <td>商品编号</td>
+                                <td>100032149194</td>
+                            </tr>
+                            </tbody>-->
+                            <tbody th:each="informations,key: ${listMap}">
+                            <tr>
+                                <th class="tdTitle" colspan="3" th:text="${key.current.getKey()}"></th>
+                            </tr>
+                            <tr th:each="information: ${informations.value}" style="overflow: auto">
+                                <td class="tdTitle" th:text="${information.keyTitle}"></td>
+                                <td th:text="${information.valueTitle}" th:if="${information.types eq 1}"></td>
+                                <td  th:if="${information.types eq 2}">
+                                    <img th:src="${information.valueTitle}" style="width: 100px;height: 100px;"/>
+                                </td>
+                                <td th:text="${information.addTime}"></td>
+                            </tr>
+                            <!--<tr>
+                                <td class="tdTitle">认证型号<i class="inline_tip" tips="3C证书上的产品型号"></i></td>
+                                <td>NbDE-WDH9</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">电源</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">电池容量</td>
+                                <td>56Wh</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">电池芯数</td>
+                                <td>4芯 锂离子电池</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">电源适配器</td>
+                                <td>65W Type-C 适配器</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">理论续航时间</td>
+                                <td>5-8小时, 具体时间视使用环境而定</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">处理器</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">CPU集成显卡</td>
+                                <td>Intel集成显卡</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">CPU类型</td>
+                                <td>第十一代智能英特尔酷睿i5 处理器</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">处理器基准频率</td>
+                                <td>2.5GHz</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">处理器加速频率</td>
+                                <td>4.5GHz</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">CPU型号</td>
+                                <td>i5-1155G7</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">核心数</td>
+                                <td>四核</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">线程数</td>
+                                <td>8线程</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">显示器</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">屏幕尺寸</td>
+                                <td>14英寸</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">屏幕类型</td>
+                                <td>IPS</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">屏幕分辨率</td>
+                                <td>1920*1080</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">显示比例</td>
+                                <td>宽屏16：9</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">显卡</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">类型</td>
+                                <td>集成显卡</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">显存类型</td>
+                                <td>无</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">显存位宽</td>
+                                <td>无</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">内存</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">内存类型<i class="inline_tip"
+                                                           tips="内存类型是指不同类型的内存传输类型各有差异，在传输率、工作频率、工作方式、工作电压等方面都有不同的各种类型内存。"></i>
+                                </td>
+                                <td>DDR4</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">最大支持容量</td>
+                                <td>8GB</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">硬盘</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">M.2接口数量</td>
+                                <td>1个</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">端口</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">Type-C非雷电端口</td>
+                                <td>1个</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">USB2.0接口数</td>
+                                <td>1个</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">显示端口</td>
+                                <td>HDMI接口</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">音频接口</td>
+                                <td>耳机、麦克风二合一接口 3.5mm</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">音效系统</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">内置麦克风</td>
+                                <td>内置麦克风</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">输入设备</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">触摸板</td>
+                                <td>多点触控</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">触摸屏</td>
+                                <td>无</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">键盘</td>
+                                <td>全尺寸键盘；单色背光键盘</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">其它设备</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">摄像头</td>
+                                <td>有摄像头</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">指纹识别</td>
+                                <td>电源键指纹识别</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">机器规格</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">产品净重（kg）</td>
+                                <td>约1.38Kg</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">产品尺寸</td>
+                                <td>长322.5mm；宽214.8mm；高15.9mm</td>
+                            </tr>
+                            <tr>
+                                <th class="tdTitle" colspan="2">网络传输</th>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">Wi-Fi连接</td>
+                                <td>Wi-Fi 6</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">局域网</td>
+                                <td>不支持局域网</td>
+                            </tr>
+                            <tr>
+                                <td class="tdTitle">蓝牙版本</td>
+                                <td>蓝牙5.0-5.1</td>
+                            </tr>-->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

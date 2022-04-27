@@ -70,24 +70,34 @@
 									<span class="help-inline">phone</span>
 								</div>
 							</div>
+
+							<div class="control-group" th:if="${user.role} != 0">
+								<label class="control-label">角色：</label>
+								<div class="controls">
+									<select name="nation" required="required">
+										<option value="China" th:selected="${user.role} eq '1'">管理员</option>
+										<option value="European Union" th:selected="${user.role} eq '2'">厂家</option>
+										<option value="America" th:selected="${user.role} eq '3'">质检员</option>
+										<option value="rests" th:selected="${user.role} eq '4'">商家</option>
+									</select>
+								</div>
+							</div>
+
+
+							<div class="control-group" th:if="${user.role} != 0">
+								<label class="control-label">职称：</label>
+								<div class="controls">
+									<input type="text" name="age" th:value="${user.jobTitle }"  required="required" lay-verify="required|number"
+										   placeholder="请输您的职称"
+										   autocomplete="off" />
+								</div>
+							</div>
+
 							<div class="control-group">
 								<label class="control-label">密码：</label>
 								<div class="controls">
 									<input name="password" th:value="${user.password }" type="text" class="m-wrap media" />
 									<span class="help-inline">password</span>
-								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label">邮箱：</label>
-								<div class="controls">
-									<input name="email" th:value="${user.email }" type="text" class="m-wrap media" />
-									<span class="help-inline">email</span>
-								</div>
-							</div>
-							<div class="control-group">
-								<label class="control-label">地址：</label>
-								<div class="controls">
-									<textarea name="addr" class="large m-wrap" rows="3" th:text="${user.addr }"></textarea>
 								</div>
 							</div>
 							<div class="form-actions">
@@ -100,7 +110,7 @@
 				</div>
 			</div>
 		</div>
-		
+
 
 		<script th:src="@{/js/jquery-1.10.1.min.js}" type="text/javascript"></script>
 		<script th:src="@{/js/jquery-migrate-1.2.1.min.js}" type="text/javascript"></script>
@@ -112,7 +122,7 @@
 		<script th:src="@{/js/jquery.cookie.min.js}" type="text/javascript"></script>
 		<script th:src="@{/js/jquery.uniform.min.js}" type="text/javascript"></script>
 		<script th:src="@{/js/app.js}" type="text/javascript"></script>
-		
+
 		<script type="text/javascript">
             //<![CDATA[
 			$(function(){
@@ -120,7 +130,7 @@
 					history.back();
 				});
 			});
-			
+
 			function update(){
 				if(!confirm("确定更新改用户信？")){
 					return;

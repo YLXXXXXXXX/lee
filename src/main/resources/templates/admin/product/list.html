@@ -15,7 +15,13 @@
     <link th:href="@{/css/default.css}" rel="stylesheet" type="text/css" id="style_color"/>
     <link th:href="@{/css/uniform.default.css}" rel="stylesheet" type="text/css"/>
     <link th:href="@{/css/pagination.css}" rel="stylesheet" type="text/css"/>
+    <!--<link th:href="@{/css/layui.css}" rel="stylesheet" type="text/css"/>-->
+    <link rel="stylesheet" type="text/css" href="https://www.layuicdn.com/layui/css/layui.css" />
     <link rel="shortcut icon" th:href="@{/image/favicon.ico}"/>
+    <style>
+        table {table-layout: fixed;}
+        td {overflow: hidden;text-overflow: ellipsis;}
+    </style>
 </head>
 
 <body>
@@ -40,6 +46,11 @@
                     商品列表
                 </div>
                 <div class="tools">
+                    <input type="text" name="keyword" id="keyword" style="height: 15px;
+                                                             padding-top: 3px;
+                                                             padding-bottom: 3px;
+                                                             margin-top: 10px;"/>
+                    <button onclick="getData()" class="btn mini"><i class="fa fa-plus"></i>搜索</button>
                     <button onclick="window.location.href='toAdd.html';" class="btn mini"><i class="fa fa-plus"></i>添加
                     </button>
                 </div>
@@ -51,8 +62,7 @@
                         <th>序号</th>
                         <th>商品图片</th>
                         <th>商品名称</th>
-                        <th>商品价格</th>
-                        <th>热门商品</th>
+                        <th>商品描述</th>
                         <th>操作</th>
                     </tr>
                     </thead>
@@ -66,7 +76,24 @@
     </div>
 </div>
 
+
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">二维码</h4>
+            </div>
+            <div class="modal-body" style="text-align: center"><img id="er_image" style='display: block;height: 100px;max-width: 100%;margin: 0 auto' src=''/></div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script src="https://www.layuicdn.com/layui/layui.js"></script>
 <script th:src="@{/js/jquery-1.10.1.min.js}" type="text/javascript"></script>
+<!--<script th:src="@{/js/layui.js}" type="text/javascript"></script>-->
 <script th:src="@{/js/jquery-migrate-1.2.1.min.js}" type="text/javascript"></script>
 <!-- IMPORTANT! Load jquery-ui-1.10.1.custom.min.js before bootstrap.min.js to fix bootstrap tooltip conflict with jquery ui tooltip -->
 <script th:src="@{/js/jquery-ui-1.10.1.custom.min.js}" type="text/javascript"></script>
@@ -111,10 +138,28 @@
     }
 
     var pagetotal;
+    var active;
     $(function () {
+        getData();
+        $("#myModal").on("hidden.bs.modal", function() {
+            $(this).removeData("bs.modal");
+        });
+    });
+
+    function targetto(i){
+        $("#myModalLabel").html(listData[i].title)
+        $("#er_image").attr("src",listData[i].ercodeUrl)
+        console.log(i)
+       console.log(listData)
+        $("#myModal").modal();
+    }
+
+    function getData() {
+        var keyword = $("#keyword").val()
         $.ajax({
             url: "getTotal.do",
             type: "get",
+            data: {"keyword": keyword},
             success: function (result) {
                 if (result.state == 0) {
                     pagetotal = result.data;
@@ -131,12 +176,13 @@
                 }
             }
         });
-    });
-
+    }
     function pageselectCallback(page_index, jq) {
+        var keyword = $("#keyword").val()
         $.ajax({
             type: "get",
             url: "list.do?pageindex=" + page_index,
+            data: {"keyword": keyword},
             success: function (result) {
                 if (result.state == 0) {
                     showList(result.data);
@@ -146,13 +192,15 @@
             }
         });
     }
-
+    var listData = [];
     function showList(data) {
+        var tbody = $("#productTable tbody").eq(0);
         if (!data || !data.length > 0) {
+            tbody.html("");
             return;
         }
+        listData = data;
         //清空表
-        var tbody = $("#productTable tbody").eq(0);
         tbody.html("");
         for (var i = 0; i < data.length; i++) {
             var tr = $("<tr style='display:none;height:50px;'></tr>");
@@ -160,18 +208,42 @@
             var src = data[i].image;
             tr.append($("<td></td>").html("<img style='display: block;height: 50px;max-width: 100%;' src='" + src + "'/>"));
             tr.append($("<td></td>").text(data[i].title));
-            tr.append($("<td></td>").text("￥" + data[i].shopPrice));
-            if (1 == data[i].isHot)
-                tr.append($("<td></td>").html("<b style='color:red;'>是</b>"));
-            else
-                tr.append($("<td></td>").html("否"));
-            tr.append($("<td></td>")
-                .append($('<button style="margin-right:20px;" class="btn mini green" onclick="edit(' + data[i].id + ')"><i class="fa fa-edit"></i> 编辑</button>'))
-                .append($('<button class="btn mini red" onclick="del(' + data[i].id + ',this)"><i class="fa fa-trash"></i> 删除</button>')));
+            tr.append($("<td></td>").text(data[i].description));
+            var status = data[i].status;
+            if (status === 0) {
+               /* tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini green" onclick="addInfo(' + data[i].id + ')"><i class="fa fa-edit"></i> 添加信息</button>'));*/
+                tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini blue" onclick="completeInfo(' + data[i].id + ')"><i class="fa fa-edit"></i> 完成信息</button>'));
+                tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini green" onclick="edit(' + data[i].id + ')"><i class="fa fa-edit"></i> 编辑</button>'));
+                tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini blue" onclick="targetto(' + i + ')"><i class="fa fa-edit"></i>查看二维码</button>'));
+                tr.append($('<button class="btn mini red" style="width: 100px;margin-bottom: 10px" onclick="del(' + data[i].id + ',this)"><i class="fa fa-trash"></i> 删除</button>'));
+            } else {
+                tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini green" onclick="edit(' + data[i].id + ')"><i class="fa fa-edit"></i> 编辑</button>'));
+                tr.append($('<button style="margin-right:20px;width: 100px;margin-bottom: 10px" class="btn mini blue" onclick="targetto(' + i + ')"><i class="fa fa-edit"></i>查看二维码</button>'));
+            }
             tbody.append(tr);
             tr.fadeIn();
         }
 
+    }
+
+    function addInfo(id) {
+        window.location.href = "/ercode/admin/information/toAdd.html?productId=" + id;
+    }
+
+    function completeInfo(id) {
+        $.ajax({
+            type: "post",
+            url: "complete_info.do",
+            data: {"id": id,status: 1},
+            success: function (result) {
+                if (result.state == 0) {
+                    alert("操作成功")
+                    window.location.reload();
+                } else {
+                    alert(result.message);
+                }
+            }
+        });
     }
 
     //		]]>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"/>
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+    <link type="text/css" rel="stylesheet"
+          href="//wq.360buyimg.com/wxsq_item_search/item/item_m/_common/detail_jdscene.24b31f6f.css"
+          onerror="__reloadResource(this)" />
+</head>
+<body>
+
+
+<div id="part_main">
+    <div class="detail_info_wrap" id="detail" style="height: auto;
+    overflow: inherit;
+    position: relative;
+    background: #fff;
+    margin-bottom: 56px;">
+        <div class="detail_list" id="detailCont"
+             style="transition: all 0ms ease 0s;">
+            <div class="detail_item p_prop" id="detail2" style="left: 0;position: unset;">
+
+                <div id="package" style="">
+                    <div class="mod_tit_line">
+                        <h3>商品名称</h3>
+                    </div>
+                    <div class="mod_row"  style="text-align: center" th:text="${product.getTitle()}">
+                    </div>
+                </div>
+                <div>
+                    <div class="mod_tit_line">
+                        <h3>商品参数</h3>
+                    </div>
+                    <div id="detParam">
+                        <table cellpadding="0" cellspacing="1" width="100%" border="0" class="Ptable param_table">
+                            <!--<tbody>
+                            <tr>
+                                <td>商品编号</td>
+                                <td>100032149194</td>
+                            </tr>
+                            </tbody>-->
+                            <tbody th:each="informations,key: ${listMap}">
+                            <tr>
+                                <th class="tdTitle" colspan="3" th:text="${key.current.getKey()}"></th>
+                            </tr>
+                            <tr th:each="information: ${informations.value}" style="overflow: auto">
+                                <td class="tdTitle" th:text="${information.keyTitle}"></td>
+                                <td th:text="${information.valueTitle}" th:if="${information.types eq 1}"></td>
+                                <td  th:if="${information.types eq 2}">
+                                    <img th:src="${information.valueTitle}" style="width: 100px;height: 100px;"/>
+                                </td>
+                                <td th:text="${information.addTime}"></td>
+                            </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

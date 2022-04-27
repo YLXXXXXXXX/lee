@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8"/>
+    <title></title>
+    <meta name="apple-mobile-web-app-capable" content="yes"/>
+    <meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+    <meta name="format-detection" content="telephone=no"/>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0, shrink-to-fit=no, viewport-fit=cover"/>
+    <meta http-equiv="x-dns-prefetch-control" content="on"/>
+    <link type="text/css" rel="stylesheet"
+          href="//wq.360buyimg.com/wxsq_item_search/item/item_m/_common/detail_jdscene.24b31f6f.css"
+          onerror="__reloadResource(this)"/>
+</head>
+<body>
+
+
+<div id="part_main">
+    <div class="detail_info_wrap" id="detail" style="height: auto;
+    overflow: inherit;
+    position: relative;
+    background: #fff;
+    margin-bottom: 56px;">
+        <div class="detail_list" id="detailCont"
+             style="transition: all 0ms ease 0s;">
+            <div class="detail_item p_prop" id="detail2" style="left: 0;position: unset;">
+                <input type="hidden" id="product_secret" th:value="${product.getSecret()}" />
+                <input type="hidden" id="secret_data" th:value="${listSecretData}" />
+                <div id="package" style="">
+                    <div class="mod_tit_line">
+                        <h3>商品名称</h3>
+                    </div>
+                    <div class="mod_row"  style="text-align: center" th:text="${product.getTitle()}">
+                    </div>
+                </div>
+                <div>
+                    <div class="mod_tit_line">
+                        <h3>商品参数</h3>
+                    </div>
+                    <div id="detParam">
+                        <table cellpadding="0" cellspacing="1" width="100%" border="0" class="Ptable param_table" id="table-content">
+                            <!--<tbody th:each="informations,key: ${listMap}">
+                            <tr>
+                                <th class="tdTitle" colspan="3" th:text="${key.current.getKey()}"></th>
+                            </tr>
+                            <tr th:each="information: ${informations.value}" style="overflow: auto">
+                                <td class="tdTitle" th:text="${information.keyTitle}"></td>
+                                <td th:text="${information.valueTitle}" th:if="${information.types eq 1}"></td>
+                                <td  th:if="${information.types eq 2}">
+                                    <img th:src="${information.valueTitle}" style="width: 100px;height: 100px;"/>
+                                </td>
+                                <td th:text="${information.addTime}"></td>
+                            </tr>
+                            </tbody>-->
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script th:src="@{/layui/jquery-3.2.1.min.js}"></script>
+<script th:src="@{/js/crypto-js.js}" type="text/javascript"></script>
+<script th:src="@{/js/base64.js}" type="text/javascript"></script>
+<script>
+    //        <![CDATA[
+    var key = $("#product_secret").val();
+    var valueData = $("#secret_data").val();
+    var listMap = decrypt(key, valueData);
+    var data = $.parseJSON(listMap)
+    var line = "";
+    $.each(data, function (keyName, list) {
+        line += '<tbody >\n' +
+            '    <tr>\n' +
+            '    <th class="tdTitle" colspan="3">'+keyName+'</th>\n' +
+            '                            </tr>'
+        $.each(list, function (k, v){
+            line += '<tr  style="overflow: auto">\n' +
+                '    <td class="tdTitle" >'+v.keyTitle+'</td>';
+            if (v.types == 1) {
+                line += '<td>'+v.valueTitle+'</td>'
+            } else {
+                line += '<td>\n' +
+                    '    <img src="'+v.valueTitle+'" style="width: 100px;height: 100px;"/>\n' +
+                    '     </td>'
+            }
+            line += '<td>'+v.addTime+'</td>\n' +
+                '                            </tr>'
+        });
+        line += '</tbody>';
+    })
+    $("#table-content").html(line)
+
+
+    function encrypt(key, word) {
+        if (typeof (word) === 'object') { // 对象格式的转成json字符串
+            word = JSON.stringify(word);
+        }
+        key = CryptoJS.enc.Utf8.parse(key) // 十六位
+        const iv = CryptoJS.enc.Utf8.parse('0102030405060708'); // 十六位
+        const encrypted = CryptoJS.AES.encrypt(word, key, {
+            iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7,
+        })
+        return encrypted.ciphertext.toString();
+    }
+
+    function decrypt(key, word) {
+        key = CryptoJS.enc.Utf8.parse(key);
+        var iv = CryptoJS.enc.Utf8.parse("0102030405060708");
+        var encryptedHexStr = CryptoJS.enc.Hex.parse(word);
+        var srcs = CryptoJS.enc.Base64.stringify(encryptedHexStr);
+        var decrypt = CryptoJS.AES.decrypt(srcs, key, {
+            iv: iv,
+            mode: CryptoJS.mode.CBC,
+            padding: CryptoJS.pad.Pkcs7
+        });
+        var decryptedStr = decrypt.toString(CryptoJS.enc.Utf8);
+        return decryptedStr.toString();
+    }
+    //        ]]>
+</script>
+</body>
+</html>

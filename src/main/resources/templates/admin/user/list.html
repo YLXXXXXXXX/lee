@@ -40,6 +40,10 @@
 							<i class="fa fa-reorder"></i>
 							用户列表
 						</div>
+						<div class="tools">
+							<button onclick="window.location.href='toAdd.html';" class="btn mini"><i class="fa fa-plus"></i>添加
+							</button>
+						</div>
 					</div>
 					<div class="portlet-body">
 						<table id="userTable" class="table table-bordered table-striped">
@@ -48,6 +52,9 @@
 									<th>序号</th>
 									<th>用户名</th>
 									<th>真实姓名</th>
+									<th>职称</th>
+									<th>电话</th>
+									<th>角色</th>
 									<th>操作</th>
 								</tr>
 							</thead>
@@ -154,6 +161,20 @@
 					tr.append($("<td></td>").text(data[i].id));
 					tr.append($("<td></td>").text(data[i].username));
 					tr.append($("<td></td>").text(data[i].name));
+					tr.append($("<td></td>").text(data[i].jobTitle));
+					tr.append($("<td></td>").text(data[i].phone));
+					if (data[i].role === 1) {
+						tr.append($("<td></td>").text("管理员"));
+					} else if (data[i].role === 2) {
+						tr.append($("<td></td>").text("厂家"));
+					} else if (data[i].role === 3) {
+						tr.append($("<td></td>").text("质检员"));
+					} else if (data[i].role === 4) {
+						tr.append($("<td></td>").text("商家"));
+					} else if (data[i].role === 0) {
+						tr.append($("<td></td>").text("普通用户"));
+					}
+
 					tr.append($("<td></td>")
 							.append($('<button style="margin-right:20px;" class="btn mini green" onclick="edit('+data[i].id+')"><i class="fa fa-edit"></i> 编辑</button>'))
 							.append($('<button class="btn mini red" onclick="del('+data[i].id+',this)"><i class="fa fa-trash"></i> 删除</button>')));
